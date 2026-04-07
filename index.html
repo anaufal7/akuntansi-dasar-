@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BasicAcc v1.4 - Perbaikan Kalkulasi Total</title>
+    <title>BasicAcc v1.6 - Neraca Lajur Otomatis</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .active-menu { @apply bg-blue-800 text-white border-l-4 border-yellow-400; }
@@ -13,6 +13,7 @@
         .table-acc th { @apply border px-4 py-2 bg-gray-100 text-left text-xs font-bold uppercase text-gray-600; }
         .table-acc td { @apply border px-4 py-2 text-sm text-gray-700; }
         input:focus { @apply outline-none ring-2 ring-blue-400; }
+        .report-section { @apply mb-10 bg-white p-6 rounded-lg shadow-md border border-gray-200; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
@@ -35,59 +36,88 @@
         </div>
 
         <div class="flex-1 p-6 md:p-10">
-            
-            <section id="jurnal" class="page-content active">
+            <section id="dashboard" class="page-content active">
+    <div class="mb-8">
+        <h2 class="text-3xl font-extrabold text-blue-900">Selamat Datang di BasicAcc</h2>
+        <p class="text-gray-500">Panel kendali simulasi akuntansi Anda hari ini.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition">
+            <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Total Kas & Bank</div>
+            <div id="dash-total-aktiva" class="text-2xl font-bold text-gray-800 mt-1">Rp 0</div>
+            <div class="text-xs text-gray-400 mt-2">Berdasarkan akun Aktiva</div>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500 hover:shadow-md transition">
+            <div class="text-xs font-bold text-green-600 uppercase tracking-wider">Laba/Rugi Berjalan</div>
+            <div id="dash-laba-rugi" class="text-2xl font-bold text-gray-800 mt-1">Rp 0</div>
+            <div class="text-xs text-gray-400 mt-2">Pendapatan - Beban</div>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500 hover:shadow-md transition">
+            <div class="text-xs font-bold text-yellow-600 uppercase tracking-wider">Status Jurnal</div>
+            <div id="dash-status-balance" class="text-lg font-bold text-gray-800 mt-1">Belum Ada Data</div>
+            <div class="text-xs text-gray-400 mt-2">Cek keseimbangan debit/kredit</div>
+        </div>
+    </div>
+
+    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+        <h3 class="text-lg font-bold text-gray-700 mb-6 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.394 2.827a1 1 0 00-1.088 0L4 5.912l5.306 3.07a1 1 0 00.988 0L16 5.912l-5.606-3.085z" />
+                <path fill-rule="evenodd" d="M3 8.812a1 1 0 00-.594.938v4.25a1 1 0 00.594.938l6 3.328a1 1 0 00.812 0l6-3.328a1 1 0 00.594-.938v-4.25a1 1 0 00-.594-.938L10 12.11 3 8.812z" clip-rule="evenodd" />
+            </svg>
+            Alur Siklus Akuntansi
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+            <div class="relative flex flex-col items-center text-center p-4 rounded-lg bg-blue-50 border border-blue-100">
+                <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold mb-3">1</div>
+                <h4 class="font-bold text-sm">Jurnal Umum</h4>
+                <p class="text-xs text-gray-500 mt-1">Catat transaksi harian Anda di sini.</p>
+                <button onclick="showPage('jurnal')" class="mt-3 text-xs bg-white border border-blue-600 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-600 hover:text-white transition">Buka Jurnal</button>
+            </div>
+            <div class="relative flex flex-col items-center text-center p-4 rounded-lg bg-gray-50">
+                <div class="w-10 h-10 bg-gray-300 text-white rounded-full flex items-center justify-center font-bold mb-3">2</div>
+                <h4 class="font-bold text-sm">Buku Besar</h4>
+                <p class="text-xs text-gray-500 mt-1">Pantau mutasi saldo per masing-masing akun.</p>
+            </div>
+            <div class="relative flex flex-col items-center text-center p-4 rounded-lg bg-gray-50">
+                <div class="w-10 h-10 bg-gray-300 text-white rounded-full flex items-center justify-center font-bold mb-3">3</div>
+                <h4 class="font-bold text-sm">Neraca Lajur</h4>
+                <p class="text-xs text-gray-500 mt-1">Otomatisasi pengelompokan saldo akun.</p>
+            </div>
+            <div class="relative flex flex-col items-center text-center p-4 rounded-lg bg-gray-50">
+                <div class="w-10 h-10 bg-gray-300 text-white rounded-full flex items-center justify-center font-bold mb-3">4</div>
+                <h4 class="font-bold text-sm">Laporan Akhir</h4>
+                <p class="text-xs text-gray-500 mt-1">Hasil akhir berupa Laba Rugi dan Neraca.</p>
+            </div>
+        </div>
+    </div>
+</section>
+            <section id="jurnal" class="page-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Jurnal Umum</h2>
-                    <div id="status-balance" class="text-sm font-bold px-4 py-2 rounded shadow-sm bg-gray-200 text-gray-700">
-                        Status: Menunggu Input
-                    </div>
+                    <div id="status-balance" class="text-sm font-bold px-4 py-2 rounded shadow-sm bg-gray-200 text-gray-700">Status: Menunggu Input</div>
                 </div>
-                
                 <div class="bg-white p-6 rounded-lg border border-gray-200 mb-8 shadow-sm">
                     <h3 id="form-title" class="font-bold mb-4 text-gray-700">Input Jurnal</h3>
                     <input type="hidden" id="edit-index" value="-1">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold mb-1 text-gray-500 uppercase">Tanggal</label>
-                            <input type="date" id="input-tgl" class="w-full p-2 border rounded text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold mb-1 text-gray-500 uppercase">Nama Akun</label>
-                            <input type="text" id="input-ket" placeholder="Kas / Modal" class="w-full p-2 border rounded text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold mb-1 text-gray-500 uppercase">Debit (Rp)</label>
-                            <input type="number" id="input-deb" value="0" onfocus="this.select()" class="w-full p-2 border rounded text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold mb-1 text-gray-500 uppercase">Kredit (Rp)</label>
-                            <input type="number" id="input-kre" value="0" onfocus="this.select()" class="w-full p-2 border rounded text-sm">
-                        </div>
+                        <input type="date" id="input-tgl" class="w-full p-2 border rounded text-sm">
+                        <input type="text" id="input-ket" placeholder="Nama Akun" class="w-full p-2 border rounded text-sm">
+                        <input type="number" id="input-deb" value="0" onfocus="this.select()" class="w-full p-2 border rounded text-sm">
+                        <input type="number" id="input-kre" value="0" onfocus="this.select()" class="w-full p-2 border rounded text-sm">
                     </div>
-                    <div class="mt-4 flex gap-2">
-                        <button onclick="simpanTransaksi()" id="btn-save" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700 transition">
-                            Posting ke Jurnal
-                        </button>
-                        <button onclick="resetForm()" id="btn-cancel" class="hidden bg-gray-400 text-white px-6 py-2 rounded font-bold hover:bg-gray-500 transition">
-                            Batal
-                        </button>
-                    </div>
+                    <button onclick="simpanTransaksi()" id="btn-save" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700">Posting ke Jurnal</button>
+                    <button onclick="resetForm()" id="btn-cancel" class="hidden mt-4 bg-gray-400 text-white px-6 py-2 rounded font-bold">Batal</button>
                 </div>
-
                 <div class="overflow-x-auto bg-white rounded-lg shadow-md border border-gray-200">
-                    <table class="table-acc" id="tabel-jurnal">
+                    <table class="table-acc">
                         <thead>
                             <tr class="bg-gray-50">
-                                <th class="w-32">Tanggal</th>
-                                <th>Keterangan Akun</th>
-                                <th class="text-right w-48">Debit (Rp)</th>
-                                <th class="text-right w-48">Kredit (Rp)</th>
-                                <th class="text-center w-24">Aksi</th>
+                                <th class="w-32">Tanggal</th><th>Keterangan Akun</th><th class="text-right w-48">Debit (Rp)</th><th class="text-right w-48">Kredit (Rp)</th><th class="text-center w-24">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="journal-body">
-                            </tbody>
+                        <tbody id="journal-body"></tbody>
                         <tfoot>
                             <tr class="bg-gray-100 font-bold border-t-2 border-gray-400 text-lg">
                                 <td colspan="2" class="text-right p-4">TOTAL :</td>
@@ -100,17 +130,107 @@
                 </div>
             </section>
 
-            <section id="dashboard" class="page-content">Dashboard Content</section>
-            <section id="buku-besar" class="page-content">Buku Besar Content</section>
-            <section id="neraca-lajur" class="page-content">Neraca Lajur Content</section>
-            <section id="laporan-keuangan" class="page-content">Laporan Keuangan Content</section>
+            <section id="buku-besar" class="page-content">
+                <h2 class="text-2xl font-bold mb-6">Buku Besar</h2>
+                <div class="bg-white p-6 rounded-lg border border-gray-200 mb-8 shadow-sm">
+                    <label class="block text-xs font-bold mb-2 text-gray-500 uppercase">Pilih Akun:</label>
+                    <select id="select-akun" onchange="renderBukuBesar()" class="w-full md:w-1/3 p-2 border rounded text-sm bg-blue-50 font-bold"></select>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-lg shadow-md border border-gray-200">
+                    <table class="table-acc">
+                        <thead><tr class="bg-gray-50"><th>Tanggal</th><th>Keterangan</th><th class="text-right">Debit</th><th class="text-right">Kredit</th><th class="text-right">Saldo</th></tr></thead>
+                        <tbody id="ledger-body"></tbody>
+                    </table>
+                </div>
+            </section>
 
+            <section id="neraca-lajur" class="page-content">
+                <h2 class="text-2xl font-bold mb-6">Neraca Lajur (Trial Balance)</h2>
+                <div class="overflow-x-auto bg-white rounded-lg shadow-md border border-gray-200">
+                    <table class="table-acc">
+                        <thead>
+                            <tr class="bg-gray-100 uppercase text-[10px]">
+                                <th rowspan="2" class="text-center">Nama Akun</th>
+                                <th colspan="2" class="text-center border-b">Neraca Saldo</th>
+                                <th colspan="2" class="text-center border-b bg-blue-50">Laba Rugi</th>
+                                <th colspan="2" class="text-center border-b">Neraca Akhir</th>
+                            </tr>
+                            <tr class="bg-gray-50 text-[10px]">
+                                <th class="text-right">Debit</th><th class="text-right">Kredit</th>
+                                <th class="text-right bg-blue-50">Debit</th><th class="text-right bg-blue-50">Kredit</th>
+                                <th class="text-right">Debit</th><th class="text-right">Kredit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="worksheet-body"></tbody>
+                        <tfoot class="bg-gray-100 font-bold">
+                            <tr id="worksheet-total-row">
+                                <td class="p-3 text-[10px]">JUMLAH SALDO</td>
+                                <td id="ws-total-ns-d" class="text-right p-3">0</td>
+                                <td id="ws-total-ns-k" class="text-right p-3">0</td>
+                                <td id="ws-total-lr-d" class="text-right p-3 bg-blue-50">0</td>
+                                <td id="ws-total-lr-k" class="text-right p-3 bg-blue-50">0</td>
+                                <td id="ws-total-nr-d" class="text-right p-3">0</td>
+                                <td id="ws-total-nr-k" class="text-right p-3">0</td>
+                            </tr>
+                            <tr class="bg-yellow-50 italic text-[10px]">
+                                <td class="p-3 text-center" id="label-laba-rugi">Laba / Rugi Bersih</td>
+                                <td colspan="2"></td>
+                                <td id="selisih-lr-d" class="text-right p-3">0</td>
+                                <td id="selisih-lr-k" class="text-right p-3">0</td>
+                                <td id="selisih-nr-d" class="text-right p-3">0</td>
+                                <td id="selisih-nr-k" class="text-right p-3">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+
+            <section id="laporan-keuangan" class="page-content">
+                <h2 class="text-2xl font-bold mb-6">Laporan Keuangan</h2>
+                
+                <div class="report-section">
+                    <h3 class="text-center font-bold text-lg uppercase border-b pb-2 mb-4">Laporan Laba Rugi</h3>
+                    <table class="w-full text-sm">
+                        <tbody id="rep-lr-body"></tbody>
+                        <tfoot class="border-t-2 font-bold bg-blue-50">
+                            <tr><td class="p-2" id="rep-lr-label">LABA (RUGI) BERSIH</td><td class="p-2 text-right" id="rep-lr-total">0</td></tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="report-section">
+                    <h3 class="text-center font-bold text-lg uppercase border-b pb-2 mb-4">Laporan Perubahan Ekuitas</h3>
+                    <table class="w-full text-sm">
+                        <tbody id="rep-ek-body"></tbody>
+                        <tfoot class="border-t-2 font-bold bg-yellow-50">
+                            <tr><td class="p-2">MODAL AKHIR</td><td class="p-2 text-right" id="rep-ek-total">0</td></tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="report-section">
+                    <h3 class="text-center font-bold text-lg uppercase border-b pb-2 mb-4">Laporan Posisi Keuangan (Neraca)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold border-b mb-2 text-blue-700">AKTIVA</h4>
+                            <table class="w-full text-sm" id="rep-nr-aktiva"></table>
+                        </div>
+                        <div>
+                            <h4 class="font-bold border-b mb-2 text-red-700">PASIVA (Kewajiban & Modal)</h4>
+                            <table class="w-full text-sm" id="rep-nr-pasiva"></table>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-8 mt-4 border-t-2 pt-2 font-bold bg-gray-100">
+                        <div class="flex justify-between px-2"><span>TOTAL AKTIVA</span><span id="rep-nr-tot-aktiva">0</span></div>
+                        <div class="flex justify-between px-2"><span>TOTAL PASIVA</span><span id="rep-nr-tot-pasiva">0</span></div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 
     <script>
-        // Data Awal (Opsional)
-        let transactions = [];
+        let transactions = JSON.parse(localStorage.getItem('myAccountingData')) || [];
 
         function showPage(pageId) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
@@ -118,25 +238,24 @@
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active-menu'));
             const btn = document.getElementById('btn-' + pageId);
             if(btn) btn.classList.add('active-menu');
+
+            if(pageId === 'buku-besar') updateDropdownAkun();
+            if(pageId === 'neraca-lajur') renderNeracaLajur();
+            if(pageId === 'laporan-keuangan') renderLaporanKeuangan();
         }
 
+        // --- FUNGSI EXISTING (TIDAK DIUBAH) ---
         function simpanTransaksi() {
             const tgl = document.getElementById('input-tgl').value;
             const ket = document.getElementById('input-ket').value;
             const deb = parseFloat(document.getElementById('input-deb').value) || 0;
             const kre = parseFloat(document.getElementById('input-kre').value) || 0;
             const editIndex = parseInt(document.getElementById('edit-index').value);
-
-            if (!tgl || !ket) { alert("Harap isi Tanggal dan Nama Akun!"); return; }
-
+            if (!tgl || !ket) { alert("Isi data!"); return; }
             const data = { tgl, ket, deb, kre };
-
-            if (editIndex === -1) {
-                transactions.push(data);
-            } else {
-                transactions[editIndex] = data;
-            }
-
+            if (editIndex === -1) { transactions.push(data); } 
+            else { transactions[editIndex] = data; }
+            localStorage.setItem('myAccountingData', JSON.stringify(transactions));
             resetForm();
             renderTable();
         }
@@ -144,60 +263,143 @@
         function renderTable() {
             const body = document.getElementById('journal-body');
             body.innerHTML = '';
-            
-            let sumDebit = 0;
-            let sumKredit = 0;
-
-            if (transactions.length === 0) {
-                body.innerHTML = '<tr><td colspan="5" class="text-center p-10 text-gray-400 italic">Belum ada transaksi. Silakan input di atas.</td></tr>';
-            }
-
+            let sD = 0; let sK = 0;
             transactions.forEach((item, index) => {
-                sumDebit += item.deb;
-                sumKredit += item.kre;
-
-                const row = document.createElement('tr');
-                row.className = "hover:bg-gray-50 border-b transition";
-                row.innerHTML = `
+                sD += item.deb; sK += item.kre;
+                body.innerHTML += `<tr class="hover:bg-gray-50 border-b">
                     <td class="p-3">${item.tgl}</td>
                     <td class="p-3 ${item.deb === 0 ? 'pl-10 italic text-gray-500' : 'font-bold text-blue-900'}">${item.ket}</td>
                     <td class="p-3 text-right font-mono">${item.deb.toLocaleString('id-ID')}</td>
                     <td class="p-3 text-right font-mono">${item.kre.toLocaleString('id-ID')}</td>
-                    <td class="p-3 text-center">
-                        <div class="flex justify-center gap-1">
-                            <button onclick="editData(${index})" class="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs border border-amber-300 hover:bg-amber-200">Edit</button>
-                            <button onclick="hapusData(${index})" class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs border border-red-300 hover:bg-red-200">Hapus</button>
-                        </div>
-                    </td>
-                `;
-                body.appendChild(row);
+                    <td class="p-3 text-center"><button onclick="editData(${index})" class="text-blue-500 hover:underline mr-2">Edit</button>
+                    <button onclick="hapusData(${index})" class="text-red-500 hover:underline">Hapus</button></td></tr>`;
             });
-
-            // Update Angka Total di Bawah
-            document.getElementById('total-debit').innerText = "Rp " + sumDebit.toLocaleString('id-ID');
-            document.getElementById('total-kredit').innerText = "Rp " + sumKredit.toLocaleString('id-ID');
-
-            // Logika Status Balance
-            const statusBox = document.getElementById('status-balance');
-            if (transactions.length > 0) {
-                if (sumDebit === sumKredit) {
-                    statusBox.innerText = "Status: Balance ✓";
-                    statusBox.className = "text-sm font-bold px-4 py-2 rounded shadow-sm bg-green-500 text-white";
-                } else {
-                    statusBox.innerText = "Status: TIDAK BALANCE ✗";
-                    statusBox.className = "text-sm font-bold px-4 py-2 rounded shadow-sm bg-red-500 text-white";
-                }
-            } else {
-                statusBox.innerText = "Status: Menunggu Input";
-                statusBox.className = "text-sm font-bold px-4 py-2 rounded shadow-sm bg-gray-200 text-gray-700";
-            }
+            document.getElementById('total-debit').innerText = "Rp " + sD.toLocaleString('id-ID');
+            document.getElementById('total-kredit').innerText = "Rp " + sK.toLocaleString('id-ID');
+            const status = document.getElementById('status-balance');
+            if(sD === sK && sD > 0) { status.innerText = "Status: Balance ✓"; status.className = "text-sm font-bold px-4 py-2 rounded bg-green-500 text-white"; }
+            else { status.innerText = "Status: TIDAK BALANCE ✗"; status.className = "text-sm font-bold px-4 py-2 rounded bg-red-500 text-white"; }
         }
 
-        function hapusData(index) {
-            if (confirm("Hapus baris ini?")) {
-                transactions.splice(index, 1);
-                renderTable();
-            }
+        function updateDropdownAkun() {
+            const select = document.getElementById('select-akun');
+            const accounts = [...new Set(transactions.map(t => t.ket))];
+            select.innerHTML = '<option value="">-- Pilih Akun --</option>' + accounts.map(a => `<option value="${a}">${a}</option>`).join('');
+        }
+
+        function renderBukuBesar() {
+            const acc = document.getElementById('select-akun').value;
+            const body = document.getElementById('ledger-body');
+            body.innerHTML = '';
+            if(!acc) return;
+            let sal = 0;
+            transactions.filter(t => t.ket === acc).forEach(t => {
+                sal += (t.deb - t.kre);
+                body.innerHTML += `<tr class="border-b"><td class="p-3">${t.tgl}</td><td class="p-3">Posting Jurnal</td><td class="p-3 text-right">${t.deb.toLocaleString()}</td><td class="p-3 text-right">${t.kre.toLocaleString()}</td><td class="p-3 text-right font-bold">${sal.toLocaleString()}</td></tr>`;
+            });
+        }
+
+        // --- LOGIKA NERACA LAJUR (DATA UTAMA) ---
+        function getComputedData() {
+            const accounts = [...new Set(transactions.map(t => t.ket))];
+            let data = [];
+            accounts.forEach(accName => {
+                let d = 0, k = 0;
+                transactions.filter(t => t.ket === accName).forEach(t => { d += t.deb; k += t.kre; });
+                let sD = (d - k > 0) ? (d - k) : 0;
+                let sK = (k - d > 0) ? (k - d) : 0;
+                let isLR = /pendapatan|beban|biaya/i.test(accName);
+                data.push({ name: accName, sD, sK, isLR });
+            });
+            return data;
+        }
+
+        function renderNeracaLajur() {
+            const body = document.getElementById('worksheet-body');
+            body.innerHTML = '';
+            const data = getComputedData();
+            let totNSD = 0, totNSK = 0, totLRD = 0, totLRK = 0, totNRD = 0, totNRK = 0;
+
+            data.forEach(acc => {
+                totNSD += acc.sD; totNSK += acc.sK;
+                let lrD = acc.isLR ? acc.sD : 0; let lrK = acc.isLR ? acc.sK : 0;
+                let nrD = !acc.isLR ? acc.sD : 0; let nrK = !acc.isLR ? acc.sK : 0;
+                totLRD += lrD; totLRK += lrK; totNRD += nrD; totNRK += nrK;
+
+                body.innerHTML += `<tr class="border-b hover:bg-gray-50">
+                    <td class="p-3 font-bold text-blue-900">${acc.name}</td>
+                    <td class="text-right font-mono">${acc.sD.toLocaleString('id-ID')}</td>
+                    <td class="text-right font-mono">${acc.sK.toLocaleString('id-ID')}</td>
+                    <td class="bg-blue-50 text-right font-mono">${lrD.toLocaleString('id-ID')}</td>
+                    <td class="bg-blue-50 text-right font-mono">${lrK.toLocaleString('id-ID')}</td>
+                    <td class="text-right font-mono">${nrD.toLocaleString('id-ID')}</td>
+                    <td class="text-right font-mono">${nrK.toLocaleString('id-ID')}</td></tr>`;
+            });
+
+            let lb = totLRK - totLRD;
+            document.getElementById('ws-total-ns-d').innerText = totNSD.toLocaleString('id-ID');
+            document.getElementById('ws-total-ns-k').innerText = totNSK.toLocaleString('id-ID');
+            document.getElementById('ws-total-lr-d').innerText = totLRD.toLocaleString('id-ID');
+            document.getElementById('ws-total-lr-k').innerText = totLRK.toLocaleString('id-ID');
+            document.getElementById('ws-total-nr-d').innerText = totNRD.toLocaleString('id-ID');
+            document.getElementById('ws-total-nr-k').innerText = totNRK.toLocaleString('id-ID');
+            document.getElementById('label-laba-rugi').innerText = lb >= 0 ? "LABA BERSIH" : "RUGI BERSIH";
+            document.getElementById('selisih-lr-d').innerText = lb > 0 ? lb.toLocaleString('id-ID') : "0";
+            document.getElementById('selisih-lr-k').innerText = lb < 0 ? Math.abs(lb).toLocaleString('id-ID') : "0";
+            document.getElementById('selisih-nr-d').innerText = lb < 0 ? Math.abs(lb).toLocaleString('id-ID') : "0";
+            document.getElementById('selisih-nr-k').innerText = lb > 0 ? lb.toLocaleString('id-ID') : "0";
+        }
+
+        // --- LOGIKA LAPORAN KEUANGAN (LINKED) ---
+        function renderLaporanKeuangan() {
+            const data = getComputedData();
+            let lrTotal = 0, modalAwal = 0, prive = 0, totalAktiva = 0, totalPasiva = 0;
+            
+            // 1. Laba Rugi
+            const lrBody = document.getElementById('rep-lr-body');
+            lrBody.innerHTML = '';
+            data.filter(a => a.isLR).forEach(a => {
+                let val = a.sK - a.sD;
+                lrTotal += val;
+                lrBody.innerHTML += `<tr><td class="p-2">${a.name}</td><td class="p-2 text-right">${val.toLocaleString('id-ID')}</td></tr>`;
+            });
+            document.getElementById('rep-lr-total').innerText = lrTotal.toLocaleString('id-ID');
+            document.getElementById('rep-lr-label').innerText = lrTotal >= 0 ? "LABA BERSIH" : "RUGI BERSIH";
+
+            // 2. Perubahan Ekuitas
+            const ekBody = document.getElementById('rep-ek-body');
+            data.forEach(a => {
+                if(/modal/i.test(a.name)) modalAwal += (a.sK - a.sD);
+                if(/prive/i.test(a.name)) prive += (a.sD - a.sK);
+            });
+            let modalAkhir = modalAwal + lrTotal - prive;
+            ekBody.innerHTML = `
+                <tr><td class="p-2">Modal Awal</td><td class="p-2 text-right">${modalAwal.toLocaleString('id-ID')}</td></tr>
+                <tr><td class="p-2">Laba/Rugi Bersih</td><td class="p-2 text-right">${lrTotal.toLocaleString('id-ID')}</td></tr>
+                <tr><td class="p-2">Prive</td><td class="p-2 text-right">(${prive.toLocaleString('id-ID')})</td></tr>`;
+            document.getElementById('rep-ek-total').innerText = modalAkhir.toLocaleString('id-ID');
+
+            // 3. Posisi Keuangan (Neraca)
+            const nAktiva = document.getElementById('rep-nr-aktiva');
+            const nPasiva = document.getElementById('rep-nr-pasiva');
+            nAktiva.innerHTML = ''; nPasiva.innerHTML = '';
+
+            data.filter(a => !a.isLR && !/modal|prive/i.test(a.name)).forEach(a => {
+                let val = a.sD - a.sK;
+                if (val >= 0) {
+                    totalAktiva += val;
+                    nAktiva.innerHTML += `<tr><td class="py-1">${a.name}</td><td class="text-right">${val.toLocaleString('id-ID')}</td></tr>`;
+                } else {
+                    totalPasiva += Math.abs(val);
+                    nPasiva.innerHTML += `<tr><td class="py-1">${a.name}</td><td class="text-right">${Math.abs(val).toLocaleString('id-ID')}</td></tr>`;
+                }
+            });
+            // Masukkan Modal Akhir ke Pasiva
+            nPasiva.innerHTML += `<tr class="font-bold border-t"><td class="py-1">Modal Akhir</td><td class="text-right">${modalAkhir.toLocaleString('id-ID')}</td></tr>`;
+            totalPasiva += modalAkhir;
+
+            document.getElementById('rep-nr-tot-aktiva').innerText = totalAktiva.toLocaleString('id-ID');
+            document.getElementById('rep-nr-tot-pasiva').innerText = totalPasiva.toLocaleString('id-ID');
         }
 
         function editData(index) {
@@ -207,25 +409,23 @@
             document.getElementById('input-deb').value = data.deb;
             document.getElementById('input-kre').value = data.kre;
             document.getElementById('edit-index').value = index;
-            
             document.getElementById('form-title').innerText = "Edit Data Jurnal";
             document.getElementById('btn-save').innerText = "Simpan Perubahan";
             document.getElementById('btn-cancel').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showPage('jurnal');
         }
 
-        function resetForm() {
-            document.getElementById('input-tgl').value = "";
-            document.getElementById('input-ket').value = "";
-            document.getElementById('input-deb').value = "0";
-            document.getElementById('input-kre').value = "0";
-            document.getElementById('edit-index').value = "-1";
+        function hapusData(i) { if(confirm("Hapus?")) { transactions.splice(i, 1); localStorage.setItem('myAccountingData', JSON.stringify(transactions)); renderTable(); } }
+        function resetForm() { 
+            document.getElementById('input-tgl').value = ""; 
+            document.getElementById('input-ket').value = ""; 
+            document.getElementById('input-deb').value = "0"; 
+            document.getElementById('input-kre').value = "0"; 
+            document.getElementById('edit-index').value = "-1"; 
             document.getElementById('form-title').innerText = "Input Jurnal";
             document.getElementById('btn-save').innerText = "Posting ke Jurnal";
-            document.getElementById('btn-cancel').classList.add('hidden');
+            document.getElementById('btn-cancel').classList.add('hidden'); 
         }
-
-        // Jalankan renderTable saat pertama kali buka agar tabel muncul
         renderTable();
     </script>
 </body>
